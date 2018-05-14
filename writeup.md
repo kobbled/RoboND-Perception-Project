@@ -86,13 +86,39 @@ ec.set_MaxClusterSize(3000)
 
 #### 3. Complete Exercise 3 Steps.  Features extracted and SVM trained.  Object recognition implemented.
 
-* Feature detection script for computing histograms of the object's hsv map and normals can be found in ./pr2_robot/scripts/features.py
+* Feature detection script for computing histograms of the object's hsv map and normals can be found in ./pr2_robot/scripts/features.py.
+* HSV histograms were computed as:
+
+```Python
+h_hist = np.histogram(channel_1_vals, bins=32, range=(0, 256))
+s_hist = np.histogram(channel_2_vals, bins=32, range=(0, 256))
+v_hist = np.histogram(channel_3_vals, bins=32, range=(0, 256))
+```
+* surface normal histograms were computed as:
+```Python
+norm_x_hist = np.histogram(norm_x_vals, bins=32, range=(-1, 1))
+norm_y_hist = np.histogram(norm_y_vals, bins=32, range=(-1, 1))
+norm_z_hist = np.histogram(norm_x_vals, bins=32, range=(-1, 1))
+```
 
 * For model training, capturing 100 images for each model gave a good balance for classification accuracy of the SVM vs time to compile the training data.
 
-* a “one-vs-rest” LinearSVC classifier gave better accuracy than the "one-vs-one" SVC using a linear kernal. Experimenting with the non linear kernels did not provide better classification accuracy.  
+* Training data with both HSV, and surface normal features was saved as "training_set_hsv_normal.sav". Training data with just the HSV feature was saved as "training_set_hsv.sav".
 
-Confusion Matrix             |  Normalize Confusion Matrix
+* a “one-vs-rest” LinearSVC classifier gave better accuracy than the "one-vs-one" SVC using a linear kernal. Experimenting with the non linear kernels did not provide better classification accuracy.
+
+* Feature accuracy of the SVM classifier is shown as:
+
+```
+Features in Training Set: 800
+Invalid Features in Training set: 1
+Scores: [ 0.95625     0.96875     0.9625      0.95625     0.98113208]
+Accuracy: 0.96 (+/- 0.02)
+accuracy score: 0.962453066333
+```
+
+
+Confusion Matrix             |  Normalized Confusion Matrix
 :-------------------------:|:-------------------------:
 ![Confusion Matrix](misc_images/Confusion_Matrix.png)  |  ![Normalized Confusion Matrix](misc_images/Normalized_Confusion_Matrix.png)
 

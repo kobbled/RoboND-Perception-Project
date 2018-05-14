@@ -10,6 +10,12 @@ def rgb_to_hsv(rgb_list):
     return hsv_normalized
 
 
+def plot_histogram(feature):
+    fig = plt.figure(figsize=(12,6))
+    plt.plot(feature)
+    plt.tick_params(axis='both', which='major', labelsize=20)
+    plt.show()
+
 def compute_color_histograms(cloud, using_hsv=True):
 
     # Compute histograms for the clusters
@@ -60,9 +66,9 @@ def compute_normal_histograms(normal_cloud):
         norm_z_vals.append(norm_component[2])
 
     # TODO: Compute histograms of normal values (just like with color)
-    norm_x_hist = np.histogram(norm_x_vals, bins=32, range=(0, 256))
-    norm_y_hist = np.histogram(norm_y_vals, bins=32, range=(0, 256))
-    norm_z_hist = np.histogram(norm_x_vals, bins=32, range=(0, 256))
+    norm_x_hist = np.histogram(norm_x_vals, bins=32, range=(-1, 1))
+    norm_y_hist = np.histogram(norm_y_vals, bins=32, range=(-1, 1))
+    norm_z_hist = np.histogram(norm_x_vals, bins=32, range=(-1, 1))
 
     # TODO: Concatenate and normalize the histograms
     hist_features = np.concatenate((norm_x_hist[0], norm_y_hist[0], norm_z_hist[0])).astype(np.float64)
